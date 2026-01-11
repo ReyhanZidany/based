@@ -1,13 +1,13 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useEnsName } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useEnsName, useConnectors } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { useEffect, useState } from "react";
 import { shortenAddress } from "@/lib/utils";
 
 export default function ConnectWallet() {
   const { address, isConnected } = useAccount();
-  const { connect } = useConnect();
+  const { connect, connectors } = useConnect();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
 
@@ -48,11 +48,16 @@ export default function ConnectWallet() {
   }
 
   return (
-    <button
-      onClick={() => connect({ connector: injected() })}
-      className="group relative inline-flex items-center justify-center px-6 py-2.5 font-bold text-white transition-all duration-200 bg-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30"
-    >
-      Connect Wallet
-    </button>
+    <div className="flex gap-2">
+      {connectors.map((connector) => (
+        <button
+          key={connector.uid}
+          onClick={() => connect({ connector })}
+          className="group relative inline-flex items-center justify-center px-4 py-2 font-bold text-white transition-all duration-200 bg-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 text-xs md:text-sm"
+        >
+          {connector.name === 'Coinbase Wallet' ? 'Smart Wallet' : 'Connect'}
+        </button>
+      ))}
+    </div>
   );
 }

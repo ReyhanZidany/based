@@ -41,10 +41,11 @@ export default function Navbar() {
                         {!!isIssuer && (
                             <Link
                                 href="/mint"
-                                className="hidden md:flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                                Mint Proof
+                                <span className="hidden md:inline">Mint Proof</span>
+                                <span className="md:hidden">Mint</span>
                             </Link>
                         )}
 
