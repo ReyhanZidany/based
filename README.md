@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/based.png" alt="based logo" width="180" />
+  <img src="frontend/public/basednobg.png" alt="based logo" width="280" />
 </p>
 
 <p align="center">
