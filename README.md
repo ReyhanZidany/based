@@ -2,7 +2,6 @@
   <img src="frontend/public/basednobg.png" alt="Based Logo" width="180" />
 </p>
 
-# Based 🔵
 **Reputation on Base. Verifiable & Forever.**
 
 > *Built for the Base Indonesia Hackathon 2025.* 🇮🇩
