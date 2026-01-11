@@ -80,7 +80,7 @@ contract BasedNFT is ERC721, Ownable {
         require(authorizedIssuers[msg.sender], "Not authorized to mint");
         require(contributor != address(0), "Invalid contributor address");
         
-        uint256 tokenId = ++_tokenIdCounter;
+        uint256 tokenId = _tokenIdCounter++;
         
         _safeMint(contributor, tokenId);
         
