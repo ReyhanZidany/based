@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/basednobg.png" alt="Based Logo" width="180" />
+  <img src="frontend/public/based-id.png" alt="Based Logo" width="180" />
 </p>
 
 **Reputation on Base. Verifiable & Forever.**
