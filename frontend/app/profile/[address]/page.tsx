@@ -39,71 +39,79 @@ export default function ProfilePage({
     };
 
     return (
-        <main className="min-h-screen bg-gray-50/50">
-            <div className="max-w-3xl mx-auto px-4 py-8">
+        <main className="min-h-screen p-4 md:p-8">
+            <div className="max-w-4xl mx-auto space-y-8">
                 {/* Navigation */}
-                <div className="mb-6 flex items-center gap-4">
+                <div className="flex items-center gap-4">
                     <Link
                         href="/"
-                        className="p-2 -ml-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
+                        className="w-10 h-10 flex items-center justify-center bg-white brutal-border hover:bg-black hover:text-white transition-all font-bold"
                     >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                        {'<'}
                     </Link>
-                    <span className="text-sm font-medium text-gray-500">Back to Dashboard</span>
+                    <h1 className="text-3xl font-black uppercase italic">Public Profile</h1>
                 </div>
 
-                <div className="space-y-8">
-                    {/* Header */}
-                    <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 relative overflow-hidden">
-                        <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-500 to-indigo-600" />
+                {/* Profile Dossier */}
+                <div className="bg-white brutal-border brutal-shadow p-6 md:p-10 relative overflow-hidden">
+                    <div className="absolute top-0 left-0 bg-black text-white px-3 py-1 text-xs font-mono font-bold">
+                        IDENTITY_DOSSIER // CONFIDENTIAL
+                    </div>
 
-                        <div className="flex flex-col items-center text-center">
-                            <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-indigo-50 rounded-full flex items-center justify-center mb-4 text-3xl shadow-inner border border-blue-50">
-                                🐰
+                    <div className="flex flex-col md:flex-row items-start gap-8 mt-6">
+                        {/* Avatar Area */}
+                        <div className="w-32 h-32 bg-gray-100 brutal-border flex items-center justify-center shrink-0">
+                            <span className="text-6xl grayscale">🐰</span>
+                        </div>
+
+                        {/* Details */}
+                        <div className="flex-1 space-y-4 w-full">
+                            <div>
+                                <h2 className="text-4xl font-black uppercase leading-none mb-1 text-black">
+                                    {ensName || "ANONYMOUS_USER"}
+                                </h2>
+                                <div className="inline-block bg-blue-100 px-2 py-0.5 border border-black font-mono text-sm text-blue-800 font-bold">
+                                    {address}
+                                </div>
                             </div>
 
-                            <h1 className="text-xl font-bold text-gray-900 font-mono tracking-tight break-all">
-                                {ensName || (
-                                    <span>{address.slice(0, 6)}...{address.slice(-4)}</span>
-                                )}
-                            </h1>
-                            <p className="text-xs text-gray-500 uppercase font-bold tracking-widest mt-1">
-                                {ensName ? (
-                                    <span className="bg-blue-50 text-blue-600 px-1.5 py-0.5 rounded">
-                                        {address.slice(0, 6)}...{address.slice(-4)}
-                                    </span>
-                                ) : (
-                                    "Based Profile"
-                                )}
-                            </p>
+                            <div className="grid grid-cols-2 gap-4 border-t-2 border-black pt-4">
+                                <div>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase">Status</p>
+                                    <p className="font-mono text-green-600 font-bold">ACTIVE // CITIZEN</p>
+                                </div>
+                                <div>
+                                    <p className="text-[10px] font-bold text-gray-500 uppercase">Network</p>
+                                    <p className="font-mono text-black font-bold">BASE SEPOLIA</p>
+                                </div>
+                            </div>
 
                             <button
                                 onClick={copyLink}
-                                className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-600 rounded-lg text-sm font-medium transition-all active:scale-95"
+                                className="w-full md:w-auto px-6 py-3 bg-white border-2 border-black text-black font-bold text-xs uppercase hover:bg-black hover:text-white transition-all brutal-shadow-sm flex items-center justify-center gap-2"
                             >
                                 {copied ? (
                                     <>
-                                        <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
-                                        Copied!
+                                        <span>[LINK_COPIED]</span>
                                     </>
                                 ) : (
                                     <>
-                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
-                                        Copy Profile Link
+                                        <span>COPY_PROFILE_URL</span>
                                     </>
                                 )}
                             </button>
                         </div>
                     </div>
+                </div>
 
-                    <div className="space-y-4">
-                        <div className="flex items-center justify-between px-1">
-                            <h2 className="text-sm font-bold text-gray-400 uppercase tracking-wider">
-                                Verified Proofs
-                            </h2>
-                        </div>
-                        <ProofList address={address} />
+                <div className="space-y-6">
+                    <div className="flex items-center gap-4 border-b-4 border-black pb-2">
+                        <h2 className="text-2xl font-black uppercase">Verified Claims</h2>
+                        <span className="bg-black text-white text-xs px-2 py-1 font-mono">
+                            IMMUTABLE_RECORDS
+                        </span>
                     </div>
+                    <ProofList address={address} />
                 </div>
             </div>
         </main>
