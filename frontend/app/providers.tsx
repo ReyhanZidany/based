@@ -12,7 +12,7 @@ const config = createConfig({
     [baseSepolia.id]: http(),
   },
   connectors: [
-    coinbaseWallet({ appName: 'Based', preference: 'smartWalletOnly' }),
+    coinbaseWallet({ appName: 'Based', preference: { options: 'all' } }),
     injected(),
   ],
 });
