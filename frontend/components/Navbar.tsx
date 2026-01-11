@@ -18,12 +18,12 @@ export default function Navbar() {
     });
 
     return (
-        <nav className="bg-white/80 backdrop-blur-md border-b border-gray-100 sticky top-0 z-40">
+        <nav className="bg-white border-b-2 border-black sticky top-0 z-40">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="relative w-12 h-12 transition-transform group-hover:scale-110">
+                        <div className="relative w-10 h-10 transition-transform group-hover:scale-110">
                             <Image
                                 src="/basednobg.png"
                                 alt="Based Logo"
@@ -31,8 +31,8 @@ export default function Navbar() {
                                 className="object-contain"
                             />
                         </div>
-                        <span className="font-bold text-xl tracking-tight text-gray-900">
-
+                        <span className="font-black text-xl tracking-tighter text-black uppercase italic">
+                            BASED<span className="text-blue-600">.ID</span>
                         </span>
                     </Link>
 
@@ -40,11 +40,9 @@ export default function Navbar() {
                         {!!isIssuer && (
                             <Link
                                 href="/mint"
-                                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-semibold text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                                className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-black border-2 border-transparent hover:border-black transition-all uppercase"
                             >
-                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" /></svg>
-                                <span className="hidden md:inline">Mint Proof</span>
-                                <span className="md:hidden">Mint</span>
+                                [ + MINT_PROOF ]
                             </Link>
                         )}
 
