@@ -1,11 +1,9 @@
-# 🔵 based
-
-**stay based on Base**
+<p align="center">
+  <img src="frontend/public/based.png" alt="based logo" width="180" />
+</p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/Built%20on-Base-0052FF?style=for-the-badge&logo=ethereum&logoColor=white" />
-  <img src="https://img.shields.io/badge/Soulbound-NFT-00D395?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Status-Building-FF6B35?style=for-the-badge" />
+  <strong>stay based on Base</strong>
 </p>
 
 ---
