@@ -23,15 +23,7 @@ export default function Navbar() {
                 <div className="flex justify-between items-center h-16">
                     {/* Logo */}
                     <Link href="/" className="flex items-center gap-2 group">
-                        <div className="relative w-10 h-10 transition-transform group-hover:scale-110">
-                            <Image
-                                src="/basednobg.png"
-                                alt="Based Logo"
-                                fill
-                                className="object-contain"
-                            />
-                        </div>
-                        <span className="font-black text-xl tracking-tighter text-black uppercase italic">
+                        <span className="font-black text-xl tracking-tighter text-black uppercase italic border-2 border-transparent group-hover:border-black px-2 transition-all">
                             BASED<span className="text-blue-600">.ID</span>
                         </span>
                     </Link>
