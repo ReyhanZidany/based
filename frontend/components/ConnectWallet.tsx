@@ -1,13 +1,15 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useEnsName } from "wagmi";
 import { injected } from "wagmi/connectors";
 import { useEffect, useState } from "react";
+import { shortenAddress } from "@/lib/utils";
 
 export default function ConnectWallet() {
   const { address, isConnected } = useAccount();
   const { connect } = useConnect();
   const { disconnect } = useDisconnect();
+  const { data: ensName } = useEnsName({ address });
 
   const [mounted, setMounted] = useState(false);
 
@@ -25,13 +27,13 @@ export default function ConnectWallet() {
     return (
       <div className="flex items-center gap-2 bg-white border border-blue-100 pl-4 pr-1 py-1 rounded-full shadow-sm hover:shadow-md transition-all">
         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-        
+
         <div className="flex flex-col">
           <span className="text-[10px] text-gray-400 font-bold uppercase leading-none">
             Connected
           </span>
           <span className="font-mono text-sm font-medium text-gray-800">
-            {address?.slice(0, 6)}...{address?.slice(-4)}
+            {ensName || (address ? `${address.slice(0, 6)}...${address.slice(-4)}` : '')}
           </span>
         </div>
 

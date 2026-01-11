@@ -1,36 +1,57 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Based 🔵
+**Onchain Reputation Platform for Builders**
 
-## Getting Started
+Built for **Base Indonesia Hackathon 2025**.
 
-First, run the development server:
+![Based Platform](https://github.com/user-attachments/assets/placeholder)
 
+## 💡 Overview
+**Based** is a decentralized platform that issues verifiable **Proofs of Contribution** (SBTs) to community members, hackathon participants, and builders. Unlike traditional PDF certificates, Based Proofs are:
+- **Onchain**: Permanently stored on Base Sepolia.
+- **Verifiable**: Anyone can verify the issuer and recipient.
+- **Non-transferable**: Soulbound Tokens (SBTs) that strictly belong to the earner.
+
+## 🚀 Key Features
+- **Minting Authority**: Authorized issuers can mint proofs to contributors.
+- **Verifiable Proofs**: Each proof is an ERC-721 Soulbound Token.
+- **Basenames Integration**: Native support for `.base.eth` names.
+- **Dynamic Certificates**: Beautiful, shareable certificate pages for every proof.
+- **Social Sharing**: One-click sharing to Farcaster and X.
+
+## ⛓️ Smart Contracts (Base Sepolia)
+| Contract | Address |
+|----------|---------|
+| **BasedNFT** | [`0x639c4DeB80473729437072449910633347520904`](https://sepolia.basescan.org/address/0x639c4DeB80473729437072449910633347520904) |
+
+## 🛠️ Tech Stack
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: Tailwind CSS + Vanilla CSS
+- **Blockchain**:
+    - [Wagmi](https://wagmi.sh/) (Hooks)
+    - [Viem](https://viem.sh/) (Low-level interaction)
+    - [OnchainKit](https://onchainkit.xyz/) (Identity)
+- **Network**: Base Sepolia Testnet
+
+## 🏃‍♂️ Getting Started
+
+### 1. Clone & Install
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/yourusername/based.git
+cd based/frontend
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Configure Environment
+Create a `.env.local` file (optional, for WalletConnect):
+```bash
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=your_id_here
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 3. Run Development Server
+```bash
+npm run dev
+```
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+*Built with 💙 on Base.*
