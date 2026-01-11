@@ -10,6 +10,14 @@ export default function ConnectWallet() {
   const { connect, connectors, error } = useConnect();
   const { disconnect } = useDisconnect();
   const { data: ensName } = useEnsName({ address });
+  const [hasInjectedProvider, setHasInjectedProvider] = useState(false);
+
+  // Check for injected provider (e.g., MetaMask, Coinbase Wallet injected)
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).ethereum) {
+      setHasInjectedProvider(true);
+    }
+  }, []);
 
   console.log("Connectors available:", connectors);
   if (error) console.error("Connection Error:", error);
@@ -32,6 +40,21 @@ export default function ConnectWallet() {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showOptions]);
+
+  const isUserRejected = (err: any) => {
+    if (!err) return false;
+    // Check for common rejection patterns
+    if (err.name === 'UserRejectedRequestError') return true;
+    if (err.code === 4001) return true; // EIP-1193 user rejected request
+    if (err.message && (
+      err.message.includes('User rejected') ||
+      err.message.includes('request rejected') ||
+      err.message.includes('denied account access')
+    )) return true;
+    return false;
+  };
+
+  const shouldShowError = error && !isUserRejected(error);
 
   if (!mounted) {
     return (
@@ -63,7 +86,16 @@ export default function ConnectWallet() {
     );
   }
 
+  // Filter connectors to show relevant options
+  const visibleConnectors = connectors.filter(c => {
+    // Always show Coinbase Wallet (Smart Wallet)
+    if (c.type === 'coinbaseWallet') return true;
 
+    // Hide 'injected' if no provider is detected in the browser
+    if (c.id === 'injected' && !hasInjectedProvider) return false;
+
+    return true;
+  });
 
   return (
     <div className="relative connect-wallet-dropdown">
@@ -74,35 +106,61 @@ export default function ConnectWallet() {
         Connect Wallet
       </button>
 
-      {error && (
-        <div className="absolute top-full mt-2 right-0 bg-red-50 text-red-600 text-xs p-2 rounded-lg border border-red-100 whitespace-nowrap">
-          {error.message}
+      {shouldShowError && (
+        <div className="absolute top-full mt-2 right-0 bg-red-50 text-red-600 text-xs p-2 rounded-lg border border-red-100 whitespace-nowrap z-50">
+          {error.message.length > 50 ? 'Connection failed' : error.message}
         </div>
       )}
 
       {showOptions && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
-          <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-50">
-            Choose Wallet
+        <div className="absolute right-0 mt-2 w-52 bg-white border border-gray-100 rounded-xl shadow-xl overflow-hidden py-1 z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+          <div className="px-4 py-2 text-xs font-semibold text-gray-400 uppercase tracking-wider border-b border-gray-50 flex justify-between items-center">
+            <span>Choose Wallet</span>
+            <button
+              onClick={() => setShowOptions(false)}
+              className="text-gray-300 hover:text-gray-500"
+            >
+              ✕
+            </button>
           </div>
-          {connectors.map((connector) => (
+
+          {visibleConnectors.map((connector) => (
             <button
               key={connector.uid}
               onClick={() => {
                 connect({ connector });
                 setShowOptions(false);
               }}
-              className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center justify-between"
+              className="w-full text-left px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-blue-600 transition-colors flex items-center justify-between group"
             >
-              {connector.name === 'Coinbase Wallet' ? 'Smart Wallet' : connector.name}
+              <div className="flex flex-col">
+                <span className="font-medium">
+                  {connector.name === 'Coinbase Wallet' ? 'Smart Wallet' : connector.name}
+                </span>
+                {connector.name === 'Coinbase Wallet' && (
+                  <span className="text-[10px] text-gray-400 group-hover:text-blue-400">
+                    Recommended
+                  </span>
+                )}
+              </div>
+
               {connector.name === 'Coinbase Wallet' && (
-                <span className="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
               )}
             </button>
           ))}
-          {connectors.length === 0 && (
+
+          {visibleConnectors.length === 0 && (
             <div className="px-4 py-3 text-sm text-gray-500 text-center">
-              No wallets found
+              No wallets detected.<br />
+              <span className="text-xs">Try Coinbase Smart Wallet</span>
+            </div>
+          )}
+
+          {/* Fallback link if someone really needs 'Injected' but it wasn't filtered correctly or they want to know why */}
+          {!hasInjectedProvider && visibleConnectors.some(c => c.name !== 'Injected') && (
+            <div className="px-4 py-2 bg-gray-50 border-t border-gray-100 text-[10px] text-gray-400 text-center leading-tight">
+              Open in MetaMask app to see more options
             </div>
           )}
         </div>
