@@ -99,127 +99,120 @@ export default function ProofDetailPage({
     )}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
     return (
-        <main className="min-h-screen bg-gray-50 py-12 px-4 flex flex-col items-center">
-            {/* Breadcrumb */}
-            <div className="w-full max-w-2xl mb-8 flex justify-between items-center">
+        <main className="min-h-screen p-4 md:p-8 flex flex-col items-center justify-center">
+
+            <div className="w-full max-w-3xl mb-6">
                 <Link
                     href="/"
-                    className="text-sm font-semibold text-gray-500 hover:text-gray-900 flex items-center gap-1"
+                    className="inline-block px-4 py-2 bg-white brutal-border hover:bg-black hover:text-white transition-colors font-bold text-xs uppercase"
                 >
-                    ← Back to Dashboard
+                    {'<'} Back to Dashboard
                 </Link>
             </div>
 
             {/* Certificate Card */}
-            <div ref={cardRef} className="bg-white w-full max-w-2xl rounded-3xl shadow-xl overflow-hidden border-4 border-double border-blue-100 relative print:shadow-none print:border-4 print:border-black">
-                {/* Decorative Corner */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-blue-100 to-transparent opacity-50 rounded-bl-full pointer-events-none" />
+            <div ref={cardRef} className="bg-white w-full max-w-3xl brutal-border brutal-shadow relative print:shadow-none overflow-hidden">
+                {/* Status Strip */}
+                <div className={`h-4 w-full border-b-2 border-black ${proof.isActive ? 'bg-blue-600' : 'bg-red-500'}`} />
 
-                <div className="p-6 md:p-12 text-center space-y-6 md:space-y-8 relative z-10">
+                <div className="p-8 md:p-12 relative z-10">
                     {/* Header */}
-                    <div className="space-y-2">
-                        <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 text-blue-700 text-xs font-bold uppercase tracking-widest rounded-full mb-4">
-                            <span className="w-2 h-2 bg-blue-600 rounded-full animate-pulse"></span>
-                            Verified on Base
+                    <div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b-2 border-dashed border-gray-300 pb-8 mb-8">
+                        <div>
+                            <h1 className="text-4xl md:text-5xl font-black text-black tracking-tighter uppercase mb-2">
+                                Proof<br /><span className="text-blue-600">Of Contribution</span>
+                            </h1>
+                            <p className="font-mono text-sm text-gray-500">
+                                RECORD_ID: #{tokenId}
+                            </p>
                         </div>
-                        <h1 className="text-3xl md:text-5xl font-black text-gray-900 tracking-tight font-serif">
-                            Proof of Contribution
-                        </h1>
-                        <p className="text-gray-500 font-medium">Token ID: #{tokenId}</p>
+                        <div className={`px-4 py-2 border-2 border-black font-black uppercase tracking-widest text-sm ${proof.isActive ? 'bg-green-400 text-black' : 'bg-red-500 text-white'}`}>
+                            {proof.isActive ? 'VERIFIED' : 'REVOKED'}
+                        </div>
                     </div>
 
                     {/* Core Content */}
-                    <div className="py-8 border-t border-b border-gray-100 space-y-6">
+                    <div className="space-y-8">
                         <div>
-                            <p className="text-sm text-gray-400 uppercase tracking-widest font-bold mb-1">Presented To Holder Of</p>
-                            <p className="text-2xl font-bold text-gray-800">
+                            <p className="text-xs font-mono text-gray-500 uppercase mb-2">-- HOLDER_ROLE</p>
+                            <p className="text-3xl font-black uppercase text-black bg-gray-100 inline-block px-2">
                                 {proof.role}
                             </p>
                         </div>
 
                         <div>
-                            <p className="text-sm text-gray-400 uppercase tracking-widest font-bold mb-1">For Contribution To</p>
-                            <h2 className="text-3xl font-bold text-blue-600">
+                            <p className="text-xs font-mono text-gray-500 uppercase mb-2">-- PROJECT_SCOPE</p>
+                            <h2 className="text-4xl font-bold text-blue-600 leading-none">
                                 {proof.projectName}
                             </h2>
                         </div>
                     </div>
 
                     {/* Footer Metadata */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left items-center">
-                        <div>
-                            <p className="text-xs text-gray-400 uppercase font-bold mb-1">Issued By</p>
-                            <div className="flex items-center gap-2">
-                                <div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                                    {proof.issuer[2].toUpperCase()}
-                                </div>
-                                <div className="overflow-hidden">
-                                    <p className="font-bold text-gray-900 text-sm truncate">
-                                        {issuerEns || `${proof.issuer.slice(0, 6)}...${proof.issuer.slice(-4)}`}
-                                    </p>
-                                    <p className="text-xs text-gray-500">Authorized Issuer</p>
-                                </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 pt-8 border-t-4 border-black">
+                        <div className="font-mono text-xs space-y-2">
+                            <div className="flex gap-2">
+                                <span className="font-bold w-20">ISSUER:</span>
+                                <span>{issuerEns || proof.issuer}</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <span className="font-bold w-20">DATE:</span>
+                                <span>{date}</span>
+                            </div>
+                            <div className="flex gap-2">
+                                <span className="font-bold w-20">NETWORK:</span>
+                                <span>BASE SEPOLIA</span>
                             </div>
                         </div>
 
-                        {/* QR Code (Center on Desktop) */}
-                        <div className="flex flex-col items-center justify-center">
-                            <div className="bg-white p-2 rounded-lg border border-gray-100 shadow-sm">
+                        <div className="flex items-end justify-end">
+                            <div className="bg-white p-2 border-2 border-black">
                                 <QRCode
                                     value={`https://based-indonesia.vercel.app/proof/${tokenId}`}
-                                    size={64}
+                                    size={80}
                                     style={{ height: "auto", maxWidth: "100%", width: "100%" }}
                                     viewBox={`0 0 256 256`}
                                 />
                             </div>
-                            <p className="text-[10px] text-gray-400 mt-1 uppercase font-bold tracking-wider">Scan to Verify</p>
-                        </div>
-
-                        <div className="text-left md:text-right">
-                            <p className="text-xs text-gray-400 uppercase font-bold mb-1">Date Issued</p>
-                            <p className="font-bold text-gray-900 text-lg">{date}</p>
-                            <a
-                                href={`https://sepolia.basescan.org/token/${BASED_CONTRACT}?a=${tokenId}`}
-                                target="_blank"
-                                className="text-xs text-blue-500 hover:underline"
-                            >
-                                View on BaseScan ↗
-                            </a>
                         </div>
                     </div>
                 </div>
-
-                {/* Bottom Status Bar */}
-                <div className={`h-2 w-full ${proof.isActive ? 'bg-green-500' : 'bg-red-500'}`} />
             </div>
 
             {/* Share & Action Buttons */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4">
+            <div className="mt-8 flex flex-wrap justify-center gap-4 w-full max-w-3xl">
                 <button
                     onClick={downloadCertificate}
-                    className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg hover:-translate-y-0.5 shadow-blue-500/30"
+                    className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm"
                 >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
-                    Download PNG
+                    [DOWNLOAD_PNG]
                 </button>
 
                 <a
                     href={twitterUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 bg-black text-white font-bold rounded-xl hover:bg-gray-800 transition-all shadow-lg hover:-translate-y-0.5"
+                    className="flex-1 bg-blue-600 text-white border-2 border-black font-bold py-3 px-6 hover:bg-blue-700 transition-all uppercase text-sm brutal-shadow-sm text-center"
                 >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zl-1.161 17.52h1.833L7.084 4.126H5.117z" /></svg>
-                    Share
+                    Share / X
                 </a>
                 <a
                     href={farcasterUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-xl hover:bg-purple-700 transition-all shadow-lg hover:-translate-y-0.5 shadow-purple-500/30"
+                    className="flex-1 bg-[#855DCD] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#704eb0] transition-all uppercase text-sm brutal-shadow-sm text-center"
                 >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.24.24H5.76A5.52 5.52 0 0 0 .24 5.76v12.48a5.52 5.52 0 0 0 5.52 5.52h12.48a5.52 5.52 0 0 0 5.52-5.52V5.76A5.52 5.52 0 0 0 18.24.24Zm-6.24 16.32a.96.96 0 1 1 0-1.92.96.96 0 0 1 0 1.92Zm2.88-5.28a3.12 3.12 0 0 1-2.88 3.12h-.96v3.12a.24.24 0 0 1-.48 0v-3.12H9.6a3.12 3.12 0 1 1 0-6.24h.24v-4.8a.24.24 0 0 1 .48 0v4.8h.48a3.12 3.12 0 0 1 2.88 3.12Z" /></svg>
                     Warpcast
+                </a>
+            </div>
+
+            <div className="mt-4">
+                <a
+                    href={`https://sepolia.basescan.org/token/${BASED_CONTRACT}?a=${tokenId}`}
+                    target="_blank"
+                    className="font-mono text-xs text-gray-400 hover:text-black hover:underline"
+                >
+                    View Source on BaseScan ↗
                 </a>
             </div>
         </main>

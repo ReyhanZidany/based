@@ -38,16 +38,14 @@ export default function MintPage() {
     if (!isIssuer) {
         return (
             <main className="min-h-screen flex items-center justify-center p-4">
-                <div className="max-w-md w-full bg-red-50 border border-red-200 rounded-2xl p-8 text-center">
-                    <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
-                    </div>
-                    <h1 className="text-xl font-bold text-red-900 mb-2">Access Denied</h1>
-                    <p className="text-red-700 mb-6">
-                        Your address <span className="font-mono bg-red-100 px-1 rounded text-red-800">{address?.slice(0, 6)}...</span> is not authorized to mint proofs.
+                <div className="max-w-md w-full bg-red-600 brutal-border brutal-shadow p-8 text-center text-white">
+                    <div className="font-mono text-6xl font-bold mb-4">403</div>
+                    <h1 className="text-2xl font-black uppercase mb-2">ACCESS_DENIED</h1>
+                    <p className="mb-6 font-mono text-sm opacity-90">
+                        Address <span className="bg-black px-1">{address?.slice(0, 6)}...</span> is not authorized to execute this command.
                     </p>
-                    <Link href="/" className="inline-block px-4 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 text-gray-700 transition-colors">
-                        Back to Dashboard
+                    <Link href="/" className="inline-block px-6 py-3 bg-white text-black font-bold brutal-border hover:bg-gray-200 transition-all uppercase text-sm">
+                        {'<'} RETURN_TO_BASE
                     </Link>
                 </div>
             </main>
@@ -55,22 +53,32 @@ export default function MintPage() {
     }
 
     return (
-        <main className="min-h-screen bg-gray-50/50">
-            <div className="max-w-3xl mx-auto px-4 py-8">
-                <div className="mb-8 flex items-center gap-4">
-                    <Link
-                        href="/"
-                        className="p-2 -ml-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
-                    >
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
-                    </Link>
-                    <div>
-                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Issue New Proof</h1>
-                        <p className="text-sm text-gray-500">Create onchain reputation for your community</p>
+        <main className="min-h-screen p-4 md:p-8">
+            <div className="max-w-4xl mx-auto">
+                <div className="mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-4 border-black pb-4">
+                    <div className="flex items-center gap-4">
+                        <Link
+                            href="/"
+                            className="w-10 h-10 flex items-center justify-center bg-white brutal-border hover:bg-black hover:text-white transition-all font-bold"
+                        >
+                            {'<'}
+                        </Link>
+                        <div>
+                            <h1 className="text-3xl font-black uppercase tracking-tighter">Minting Console</h1>
+                            <p className="text-xs font-mono bg-black text-white inline-block px-2 py-0.5">V1.0.2 // AUTHORIZED_MODE</p>
+                        </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 font-mono text-xs">
+                        <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse border border-black"></span>
+                        SYSTEM_ONLINE
                     </div>
                 </div>
 
-                <div className="relative">
+                <div className="bg-white brutal-border brutal-shadow p-6 md:p-10 relative">
+                    <div className="absolute top-0 right-0 p-2 font-mono text-[10px] text-gray-400">
+                        ID: {address?.slice(0, 8)}
+                    </div>
                     <MintProof />
                 </div>
             </div>
