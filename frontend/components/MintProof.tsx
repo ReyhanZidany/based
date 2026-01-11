@@ -8,8 +8,9 @@ import {
 } from "wagmi";
 import { BASED_ABI } from "@/lib/abi";
 import { BASED_CONTRACT } from "@/lib/contract";
-import { motion, AnimatePresence } from "framer-motion";
-import { Loader2, ArrowRight, Wallet, Check, Copy } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ArrowRight, Check, Loader2, Wallet } from "lucide-react";
+import { generateTokenURI } from "@/lib/generator";
 
 export default function MintProof() {
   const { isConnected } = useAccount();
@@ -50,16 +51,18 @@ export default function MintProof() {
   const handleMint = () => {
     if (!contributor) return alert("Contributor address required");
 
+    const tokenURI = generateTokenURI(projectName, role || "Contributor", contributor);
+
     writeContract({
       address: BASED_CONTRACT as `0x${string}`,
       abi: BASED_ABI,
       functionName: "mintBased",
-      chainId: 84532, // Force Base Sepolia
+      chainId: 84532,
       args: [
         contributor,
         projectName,
-        role,
-        "ipfs://demo-proof",
+        role || "Contributor",
+        tokenURI,
       ],
     });
   };
