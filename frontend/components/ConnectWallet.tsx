@@ -47,17 +47,17 @@ export default function ConnectWallet() {
     );
   }
 
+  const coinbaseConnector = connectors.find((c) => c.name === 'Coinbase Wallet');
+  const connectorToUse = coinbaseConnector || connectors[0];
+
+  if (!connectorToUse) return null;
+
   return (
-    <div className="flex gap-2">
-      {connectors.map((connector) => (
-        <button
-          key={connector.uid}
-          onClick={() => connect({ connector })}
-          className="group relative inline-flex items-center justify-center px-4 py-2 font-bold text-white transition-all duration-200 bg-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 text-xs md:text-sm"
-        >
-          {connector.name === 'Coinbase Wallet' ? 'Smart Wallet' : 'Connect'}
-        </button>
-      ))}
-    </div>
+    <button
+      onClick={() => connect({ connector: connectorToUse })}
+      className="group relative inline-flex items-center justify-center px-4 py-2 font-bold text-white transition-all duration-200 bg-blue-600 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 hover:bg-blue-700 shadow-lg shadow-blue-500/30 text-xs md:text-sm"
+    >
+      Connect Wallet
+    </button>
   );
 }

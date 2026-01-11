@@ -55,14 +55,22 @@ export default function MintPage() {
     }
 
     return (
-        <main className="min-h-screen bg-gray-50 py-12 px-4">
-            <div className="max-w-lg mx-auto">
-                <div className="mb-8">
-                    <h1 className="text-3xl font-bold text-gray-900">Mint Proof</h1>
-                    <p className="text-gray-500">Issue a new proof of contribution.</p>
+        <main className="min-h-screen bg-gray-50/50">
+            <div className="max-w-3xl mx-auto px-4 py-8">
+                <div className="mb-8 flex items-center gap-4">
+                    <Link
+                        href="/"
+                        className="p-2 -ml-2 text-gray-400 hover:text-gray-900 hover:bg-gray-100 rounded-full transition-all"
+                    >
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
+                    </Link>
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Issue New Proof</h1>
+                        <p className="text-sm text-gray-500">Create onchain reputation for your community</p>
+                    </div>
                 </div>
 
-                <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6">
+                <div className="relative">
                     <MintProof />
                 </div>
             </div>

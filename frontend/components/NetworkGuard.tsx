@@ -1,10 +1,11 @@
 "use client";
 
-import { useChainId, useSwitchChain } from "wagmi";
+import { useChainId, useSwitchChain, useAccount } from "wagmi";
 import { useEffect, useState } from "react";
 import { BASE_SEPOLIA } from "@/lib/contract";
 
 export default function NetworkGuard() {
+    const { isConnected } = useAccount();
     const chainId = useChainId();
     const { switchChain } = useSwitchChain();
     const [mounted, setMounted] = useState(false);
@@ -14,8 +15,7 @@ export default function NetworkGuard() {
     }, []);
 
     if (!mounted) return null;
-
-    // 84532 is Base Sepolia
+    if (!isConnected) return null; // Don't block if not connected
     if (chainId === BASE_SEPOLIA.id) return null;
 
     return (

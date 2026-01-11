@@ -10,7 +10,6 @@ import { BASED_CONTRACT } from "@/lib/contract";
 export default function Navbar() {
     const { address } = useAccount();
 
-    // Check if user is issuer to show Mint link
     const { data: isIssuer } = useReadContract({
         address: BASED_CONTRACT as `0x${string}`,
         abi: BASED_ABI,
