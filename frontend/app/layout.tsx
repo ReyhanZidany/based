@@ -1,29 +1,25 @@
-"use client";
-
-import { WagmiProvider, createConfig, http } from "wagmi";
-import { baseSepolia } from "wagmi/chains";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactNode } from "react";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google"; 
 import "./globals.css";
+import { Providers } from "./providers";
 
-const config = createConfig({
-  chains: [baseSepolia],
-  transports: {
-    [baseSepolia.id]: http(),
-  },
-});
+const inter = Inter({ subsets: ["latin"] });
 
-const queryClient = new QueryClient();
+export const metadata: Metadata = {
+  title: "based | Onchain Reputation",
+  description: "Proof of contribution built on Base",
+  themeColor: "#0052FF",
+};
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
-    <html>
-      <body>
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            {children}
-          </QueryClientProvider>
-        </WagmiProvider>
+    <html lang="en">
+      <body className={`${inter.className} antialiased`}>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

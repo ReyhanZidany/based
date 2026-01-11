@@ -71,7 +71,6 @@ D -->|Forever Based| E[Onchain Reputation]
 - [x] Non-transferable token logic
 - [x] Batch minting for organizations
 - [x] Deployed on Base Sepolia testnet
-- [x] Contract verification
 
 ### In Progress 🚧
 - [ ] Frontend application (Next.js + OnchainKit)
@@ -117,10 +116,10 @@ D -->|Forever Based| E[Onchain Reputation]
 ### Base Sepolia (Testnet)
 
 - **BasedNFT Contract Address:**  
-  `0x51F0e6f38a3758b5fBcDffa99C27dA353Ad05FBA`
+  `0x639c4DeB80473729437072449910633347520904`
 
 - **Explorer (BaseScan):**  
-  https://sepolia.basescan.org/address/0x51F0e6f38a3758b5fBcDffa99C27dA353Ad05FBA
+  https://sepolia.basescan.org/address/0x639c4DeB80473729437072449910633347520904
 
 - **Network:** Base Sepolia  
 - **Chain ID:** 84532
