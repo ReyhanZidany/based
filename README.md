@@ -14,7 +14,7 @@
 
 Real contributions have no real proof. 
 
-- 📄 Hackathon certificates?  Photoshoppable. 
+- 📄 Hackathon certificates? Photoshoppable. 
 - 💼 LinkedIn achievements? Self-claimed.
 - 🤝 Volunteer work? Just photos.
 - 👥 Team contributions? No permanent record.
@@ -25,7 +25,7 @@ Real contributions have no real proof.
 
 ## 💡 The Solution
 
-**based** creates soulbound NFTs on Base that prove your contributions are real.
+**based** turns contributions into onchain credentials — not profiles, not claims, but cryptographic facts.
 
 Every contribution: 
 - ✅ Recorded onchain (Base L2)
@@ -115,9 +115,21 @@ D -->|Forever Based| E[Onchain Reputation]
 ## 📋 Deployed Contracts
 
 ### Base Sepolia (Testnet)
-- **BasedNFT Contract:** `[DEPLOYING...]`
-- **View on BaseScan:** `[LINK COMING...]`
-- **Network:** Base Sepolia (Chain ID:  84532)
+
+- **BasedNFT Contract Address:**  
+  `0x51F0e6f38a3758b5fBcDffa99C27dA353Ad05FBA`
+
+- **Explorer (BaseScan):**  
+  https://sepolia.basescan.org/address/0x51F0e6f38a3758b5fBcDffa99C27dA353Ad05FBA
+
+- **Network:** Base Sepolia  
+- **Chain ID:** 84532
+
+### Contract Highlights
+- Soulbound (non-transferable) ERC-721
+- Organization-authorized minting
+- Batch minting for scalability
+- Onchain, permanent proof of contribution
 
 ### Contract Features
 ```solidity
