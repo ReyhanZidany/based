@@ -70,28 +70,27 @@ export default function ProofList({ address: propAddress }: { address?: string }
 
   if (proofIdsArray.length === 0) {
     return (
-      <div className="text-center py-10 bg-white rounded-xl border border-gray-100 shadow-sm">
-        <p className="text-gray-500 font-medium">
+      <div className="text-center py-10 bg-white brutal-border brutal-shadow-sm">
+        <p className="text-black font-bold text-lg uppercase">
           {isViewingOwnProfile ? "No proofs found." : "This user has no proofs yet."}
         </p>
         {isViewingOwnProfile && (
-          <p className="text-gray-400 text-xs mt-1">Start contributing to get based.</p>
+          <p className="text-gray-500 text-sm font-mono mt-2">{'>'} INIT_CONTRIBUTION_SEQUENCE</p>
         )}
       </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
       {proofIdsArray.map((id) => (
-        // Pindahkan komponen ProofItem ke file terpisah atau di bawah
         <ProofItem key={id.toString()} tokenId={id} />
       ))}
     </div>
   );
 }
 
-// Sub-component ProofItem (UI dipercantik seperti Sertifikat/Kartu)
+// Sub-component ProofItem (Neo-Brutalist Design)
 function ProofItem({ tokenId }: { tokenId: bigint }) {
   const { data } = useReadContract({
     address: BASED_CONTRACT as `0x${string}`,
@@ -111,60 +110,64 @@ function ProofItem({ tokenId }: { tokenId: bigint }) {
   };
 
   return (
-    <div className="relative overflow-hidden bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all group">
-      <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${proof.isActive ? 'bg-blue-600' : 'bg-red-500'}`} />
+    <div className="group relative bg-white brutal-border brutal-shadow transition-all hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+      {/* Decorative colored strip based on status */}
+      <div className={`h-2 w-full border-b-2 border-black ${proof.isActive ? 'bg-blue-600' : 'bg-red-500'}`} />
 
-      <div className="p-5 pl-7">
-        <div className="flex justify-between items-start mb-2">
+      <div className="p-5">
+        <div className="flex justify-between items-start mb-4">
           <div>
-            <h3 className="font-bold text-lg text-gray-900 leading-tight">
+            <h3 className="font-black text-xl text-black leading-tight uppercase">
               {proof.projectName}
             </h3>
-            <p className="text-blue-600 font-medium text-sm mt-0.5">{proof.role}</p>
+            <p className="text-blue-700 font-bold font-mono text-xs mt-1 bg-blue-100 inline-block px-1 border border-black">
+              {proof.role}
+            </p>
           </div>
 
-          <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded border ${proof.isActive
-            ? "bg-blue-50 text-blue-700 border-blue-100"
-            : "bg-red-50 text-red-700 border-red-100"
+          <span className={`px-2 py-1 text-[10px] font-bold uppercase tracking-wider border-2 border-black ${proof.isActive
+            ? "bg-green-400 text-black"
+            : "bg-red-500 text-white"
             }`}>
-            {proof.isActive ? "Verified" : "Revoked"}
+            {proof.isActive ? "VERIFIED" : "REVOKED"}
           </span>
         </div>
 
-        <div className="mt-4 grid grid-cols-2 gap-y-2 text-xs text-gray-500 border-t pt-3 border-gray-100">
+        <div className="grid grid-cols-2 gap-y-4 text-xs font-mono border-t-2 border-dashed border-gray-300 pt-4 mt-2">
           <div>
-            <p className="uppercase text-[10px] text-gray-400 font-semibold mb-0.5">Issuer</p>
-            <p className="font-mono text-gray-700 truncate w-24 sm:w-auto" title={proof.issuer}>
+            <p className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">ISSUER_ID</p>
+            <p className="text-black truncate w-24 sm:w-auto" title={proof.issuer}>
               {proof.issuer.slice(0, 6)}...{proof.issuer.slice(-4)}
             </p>
           </div>
           <div className="text-right">
-            <p className="uppercase text-[10px] text-gray-400 font-semibold mb-0.5">Date</p>
-            <p className="font-medium text-gray-700">
+            <p className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">TIMESTAMP</p>
+            <p className="text-black">
               {new Date(Number(proof.timestamp) * 1000).toLocaleDateString(undefined, {
                 year: 'numeric',
-                month: 'short',
+                month: 'numeric',
                 day: 'numeric'
               })}
             </p>
           </div>
         </div>
-        <div className="mt-3 flex justify-between items-center">
+
+        <div className="mt-5 flex justify-between items-center pt-2">
           <Link
             href={`/proof/${tokenId}`}
-            className="inline-flex items-center gap-1 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 hover:bg-blue-100 px-3 py-1.5 rounded-lg transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-bold text-white bg-black px-4 py-2 border-2 border-transparent hover:bg-white hover:text-black hover:border-black transition-all"
           >
-            View Certificate
-            <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
+            VIEW PROOF
+            <span className="text-lg leading-none">→</span>
           </Link>
 
           <a
             href={`https://sepolia.basescan.org/token/${BASED_CONTRACT}?a=${tokenId}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-[10px] font-semibold text-gray-400 hover:text-gray-600 transition-colors"
+            className="text-[10px] font-bold text-gray-400 hover:text-black transition-colors uppercase"
           >
-            BaseScan ↗
+            [BASESCAN]
           </a>
         </div>
       </div>
