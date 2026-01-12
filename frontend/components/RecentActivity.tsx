@@ -53,14 +53,17 @@ export default function RecentActivity() {
                             abi: BASED_ABI,
                             functionName: "getProofDetails",
                             args: [BigInt(i)],
-                        }).then((data: any) => ({
-                            tokenId: i.toString(),
-                            projectName: data.projectName,
-                            role: data.role,
-                            timestamp: new Date(Number(data.timestamp) * 1000).toLocaleDateString('id-ID', {
-                                day: 'numeric', month: 'short'
-                            })
-                        }))
+                        }).then((data) => {
+                            const proofData = data as { projectName: string; role: string; timestamp: bigint; };
+                            return {
+                                tokenId: i.toString(),
+                                projectName: proofData.projectName,
+                                role: proofData.role,
+                                timestamp: new Date(Number(proofData.timestamp) * 1000).toLocaleDateString('id-ID', {
+                                    day: 'numeric', month: 'short'
+                                })
+                            };
+                        })
                     );
                 }
 

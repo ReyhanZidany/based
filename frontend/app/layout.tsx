@@ -6,6 +6,7 @@ import NetworkGuard from "@/components/NetworkGuard";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import NextTopLoader from "nextjs-toploader";
+import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -37,6 +38,7 @@ export default function RootLayout({
             <Footer />
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

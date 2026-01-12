@@ -14,7 +14,7 @@ export default function ConnectWallet() {
 
   // Check for injected provider (e.g., MetaMask, Coinbase Wallet injected)
   useEffect(() => {
-    if (typeof window !== 'undefined' && (window as any).ethereum) {
+    if (typeof window !== 'undefined' && 'ethereum' in window) {
       setHasInjectedProvider(true);
     }
   }, []);
@@ -41,15 +41,18 @@ export default function ConnectWallet() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showOptions]);
 
-  const isUserRejected = (err: any) => {
-    if (!err) return false;
+  const isUserRejected = (err: unknown) => {
+    if (!err || typeof err !== 'object') return false;
+
+    const error = err as { name?: string; code?: number; message?: string };
+
     // Check for common rejection patterns
-    if (err.name === 'UserRejectedRequestError') return true;
-    if (err.code === 4001) return true; // EIP-1193 user rejected request
-    if (err.message && (
-      err.message.includes('User rejected') ||
-      err.message.includes('request rejected') ||
-      err.message.includes('denied account access')
+    if (error.name === 'UserRejectedRequestError') return true;
+    if (error.code === 4001) return true; // EIP-1193 user rejected request
+    if (error.message && (
+      error.message.includes('User rejected') ||
+      error.message.includes('request rejected') ||
+      error.message.includes('denied account access')
     )) return true;
     return false;
   };

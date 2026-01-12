@@ -12,7 +12,7 @@ const client = createPublicClient({
 });
 
 export async function GET(
-    request: Request,
+    _: Request,
     { params }: { params: Promise<{ tokenId: string }> }
 ) {
     try {
@@ -24,7 +24,12 @@ export async function GET(
             abi: BASED_ABI,
             functionName: "getProofDetails",
             args: [BigInt(tokenId)],
-        })) as any;
+        })) as unknown as {
+            timestamp: bigint;
+            role: string;
+            projectName: string;
+            issuer: string;
+        };
 
         const date = new Date(Number(proof.timestamp) * 1000).toLocaleDateString(
             "id-ID",
@@ -127,7 +132,7 @@ export async function GET(
                 height: 630,
             }
         );
-    } catch (e: any) {
+    } catch (e: unknown) {
         return new ImageResponse(
             (
                 <div
