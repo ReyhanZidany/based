@@ -8,6 +8,7 @@ import ProfileSearch from "@/components/ProfileSearch";
 import { useAccount, useReadContract } from "wagmi";
 import { BASED_ABI } from "@/lib/abi";
 import { BASED_CONTRACT } from "@/lib/contract";
+import RecentActivity from "@/components/RecentActivity";
 import { useState, useEffect } from "react";
 
 export default function Home() {
@@ -70,6 +71,8 @@ export default function Home() {
         </div>
       </section>
 
+
+
       {/* Dashboard Section */}
       <div className="grid lg:grid-cols-12 gap-8">
 
@@ -113,6 +116,8 @@ export default function Home() {
               </Link>
             </div>
           )}
+          {/* Live Feed (Sidebar) */}
+          <RecentActivity />
         </div>
 
         {/* Main Feed */}

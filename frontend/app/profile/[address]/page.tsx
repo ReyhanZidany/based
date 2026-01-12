@@ -67,11 +67,12 @@ export default function ProfilePage({
                         {/* Details */}
                         <div className="flex-1 space-y-4 w-full">
                             <div>
-                                <h2 className="text-4xl font-black uppercase leading-none mb-1 text-black">
+                                <h2 className="text-2xl md:text-4xl font-black uppercase leading-none mb-1 text-black break-words">
                                     {ensName || "ANONYMOUS_USER"}
                                 </h2>
-                                <div className="inline-block bg-blue-100 px-2 py-0.5 border border-black font-mono text-sm text-blue-800 font-bold">
-                                    {address}
+                                <div className="inline-block bg-blue-100 px-2 py-0.5 font-mono text-sm text-blue-800 font-bold">
+                                    <span className="md:hidden">{address.slice(0, 6)}...{address.slice(-4)}</span>
+                                    <span className="hidden md:inline">{address}</span>
                                 </div>
                             </div>
 

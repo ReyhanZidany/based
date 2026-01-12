@@ -7,7 +7,8 @@ import { BASED_CONTRACT } from "@/lib/contract";
 import Link from "next/link";
 import QRCode from "react-qr-code";
 import { toPng } from "html-to-image";
-import { Linkedin } from "lucide-react";
+import { Linkedin, Loader2, Download } from "lucide-react";
+import { jsPDF } from "jspdf";
 
 export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
     const [mounted, setMounted] = useState(false);
@@ -69,12 +70,37 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
             });
     }, [tokenId]);
 
+    const downloadPDF = useCallback(() => {
+        if (cardRef.current === null) return;
+
+        // Show loading state or similar if needed (skipped for simplicity)
+        toPng(cardRef.current, { cacheBust: true, pixelRatio: 2 })
+            .then((dataUrl) => {
+                const pdf = new jsPDF({
+                    orientation: "landscape",
+                    unit: "px",
+                    format: [1200, 800] // Roughly match the card aspect ratio
+                });
+
+                const imgProps = pdf.getImageProperties(dataUrl);
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+
+                pdf.addImage(dataUrl, "PNG", 0, 0, pdfWidth, pdfHeight);
+                pdf.save(`based-proof-${tokenId}.pdf`);
+            })
+            .catch((err) => {
+                console.error("Failed to download PDF", err);
+            });
+    }, [tokenId]);
+
     if (!mounted) return null;
 
     if (isLoading) {
         return (
             <main className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="animate-pulse flex flex-col items-center">
+                    <Loader2 className="w-10 h-10 animate-spin text-gray-400 mb-4" />
                     <div className="h-64 w-96 bg-gray-200 rounded-2xl mb-4"></div>
                     <div className="h-8 w-48 bg-gray-200 rounded"></div>
                 </div>
@@ -176,7 +202,16 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
                         <div className="font-mono text-xs space-y-3 w-full">
                             <div className="flex gap-4 items-center">
                                 <span className="font-bold w-20">ISSUER:</span>
-                                <span className="font-mono bg-gray-100 px-1">{issuerEns || proof.issuer}</span>
+                                <span className="font-mono">
+                                    {issuerEns ? (
+                                        issuerEns
+                                    ) : (
+                                        <>
+                                            <span className="md:hidden">{proof.issuer.slice(0, 6)}...{proof.issuer.slice(-4)}</span>
+                                            <span className="hidden md:inline">{proof.issuer}</span>
+                                        </>
+                                    )}
+                                </span>
                             </div>
                             <div className="flex gap-4 items-center">
                                 <span className="font-bold w-20">DATE:</span>
@@ -202,38 +237,48 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
 
             {/* Share & Action Buttons (ONLY FOR OWNER) */}
             {isOwner ? (
-                <div className="mt-8 flex flex-wrap justify-center gap-4 w-full max-w-3xl">
-                    <button
-                        onClick={downloadCertificate}
-                        className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm min-w-[200px]"
-                    >
-                        [DOWNLOAD_PNG]
-                    </button>
+                <div className="mt-8 flex flex-col w-full max-w-3xl gap-4">
+                    <div className="flex flex-wrap gap-4 w-full">
+                        <button
+                            onClick={downloadCertificate}
+                            className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm min-w-[200px] flex items-center justify-center gap-2"
+                        >
+                            <Download className="w-4 h-4" /> [ DOWNLOAD_PNG ]
+                        </button>
+                        <button
+                            onClick={downloadPDF}
+                            className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm min-w-[200px] flex items-center justify-center gap-2"
+                        >
+                            <Download className="w-4 h-4" /> [ DOWNLOAD_PDF ]
+                        </button>
+                    </div>
 
-                    <a
-                        href={twitterUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 bg-black text-white border-2 border-black font-bold py-3 px-6 hover:bg-gray-800 transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
-                    >
-                        Share / X
-                    </a>
-                    <a
-                        href={farcasterUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 bg-[#855DCD] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#704eb0] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
-                    >
-                        Warpcast
-                    </a>
-                    <a
-                        href={linkedinUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 bg-[#0077b5] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#006097] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px] flex items-center justify-center gap-2"
-                    >
-                        <Linkedin className="w-4 h-4" /> LinkedIn
-                    </a>
+                    <div className="flex flex-wrap gap-4 w-full">
+                        <a
+                            href={twitterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 bg-black text-white border-2 border-black font-bold py-3 px-6 hover:bg-gray-800 transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
+                        >
+                            Share / X
+                        </a>
+                        <a
+                            href={farcasterUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 bg-[#855DCD] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#704eb0] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
+                        >
+                            Warpcast
+                        </a>
+                        <a
+                            href={linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 bg-[#0077b5] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#006097] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px] flex items-center justify-center gap-2"
+                        >
+                            <Linkedin className="w-4 h-4" /> LinkedIn
+                        </a>
+                    </div>
                 </div>
             ) : (
                 <div className="mt-8 text-center text-sm font-mono text-gray-500 uppercase">
