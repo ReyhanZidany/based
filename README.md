@@ -4,7 +4,7 @@
 
 **Reputation on Base. Verifiable & Forever.**
 
-> *Built for the Base Indonesia Hackathon 2025.* 🇮🇩
+> *Built for the Base Indonesia Hackathon 2026.* 🇮🇩
 
 ---
 

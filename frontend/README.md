@@ -1,7 +1,7 @@
 # Based 🔵
 **Onchain Reputation Platform for Builders**
 
-Built for **Base Indonesia Hackathon 2025**.
+Built for **Base Indonesia Hackathon 2026**.
 
 ![Based Platform](https://github.com/user-attachments/assets/placeholder)
 
