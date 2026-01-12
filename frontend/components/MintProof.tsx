@@ -5,6 +5,8 @@ import {
   useAccount,
   useWriteContract,
   useWaitForTransactionReceipt,
+  useChainId,
+  useSwitchChain,
 } from "wagmi";
 import { BASED_ABI } from "@/lib/abi";
 import { BASED_CONTRACT } from "@/lib/contract";
@@ -48,8 +50,21 @@ export default function MintProof() {
     );
   }
 
-  const handleMint = () => {
+  const chainId = useChainId();
+  const { switchChainAsync } = useSwitchChain();
+
+  const handleMint = async () => {
     if (!contributor) return alert("Contributor address required");
+
+    // Force network switch if wrong chain
+    if (chainId !== 84532) {
+      try {
+        await switchChainAsync({ chainId: 84532 });
+      } catch (e) {
+        console.error("Failed to switch chain:", e);
+        return;
+      }
+    }
 
     const tokenURI = generateTokenURI(projectName, role || "Contributor", contributor, address || "0x0000000000000000000000000000000000000000");
 

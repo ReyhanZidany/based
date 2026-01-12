@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef, useCallback } from "react";
-import { useReadContract, useEnsName } from "wagmi";
+import { useReadContract, useEnsName, useAccount } from "wagmi";
 import { BASED_ABI } from "@/lib/abi";
 import { BASED_CONTRACT } from "@/lib/contract";
 import Link from "next/link";
@@ -13,10 +13,14 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
     const [mounted, setMounted] = useState(false);
     const cardRef = useRef<HTMLDivElement>(null);
 
+    // 1. Get Wallet Address
+    const { address } = useAccount();
+
     useEffect(() => {
         setMounted(true);
     }, []);
 
+    // 2. Get Proof Details
     const { data: proofData, isLoading } = useReadContract({
         address: BASED_CONTRACT as `0x${string}`,
         abi: BASED_ABI,
@@ -35,9 +39,21 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
         }
         | undefined;
 
+    // 3. Resolve Issuer ENS
     const { data: issuerEns } = useEnsName({
         address: proof?.issuer as `0x${string}` | undefined,
     });
+
+    // 4. Get Token Owner (for protection)
+    const { data: owner } = useReadContract({
+        address: BASED_CONTRACT as `0x${string}`,
+        abi: BASED_ABI,
+        functionName: "ownerOf",
+        args: [BigInt(tokenId)],
+    });
+
+    // 5. Verification Logic
+    const isOwner = address && owner && (address.toLowerCase() === (owner as string).toLowerCase());
 
     const downloadCertificate = useCallback(() => {
         if (cardRef.current === null) return;
@@ -93,7 +109,10 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
         shareText
     )}&embeds[]=${encodeURIComponent(shareUrl)}`;
 
-    const linkedinUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+    const linkedinText = `Excited to share my official Proof of Contribution on Base!\n\nVerified Role: ${proof.role}\nProject: ${proof.projectName}\n\nCheck my onchain reputation here:`;
+    const linkedinUrl = `https://www.linkedin.com/feed/?shareActive=true&text=${encodeURIComponent(
+        linkedinText + " " + shareUrl
+    )}`;
 
     return (
         <main className="min-h-screen p-4 md:p-8 flex flex-col items-center justify-center">
@@ -181,40 +200,46 @@ export default function ProofDetailClient({ tokenId }: { tokenId: string }) {
                 </div>
             </div>
 
-            {/* Share & Action Buttons */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4 w-full max-w-3xl">
-                <button
-                    onClick={downloadCertificate}
-                    className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm min-w-[200px]"
-                >
-                    [DOWNLOAD_PNG]
-                </button>
+            {/* Share & Action Buttons (ONLY FOR OWNER) */}
+            {isOwner ? (
+                <div className="mt-8 flex flex-wrap justify-center gap-4 w-full max-w-3xl">
+                    <button
+                        onClick={downloadCertificate}
+                        className="flex-1 bg-white text-black border-2 border-black font-bold py-3 px-6 hover:bg-black hover:text-white transition-all uppercase text-sm brutal-shadow-sm min-w-[200px]"
+                    >
+                        [DOWNLOAD_PNG]
+                    </button>
 
-                <a
-                    href={twitterUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 bg-black text-white border-2 border-black font-bold py-3 px-6 hover:bg-gray-800 transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
-                >
-                    Share / X
-                </a>
-                <a
-                    href={farcasterUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 bg-[#855DCD] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#704eb0] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
-                >
-                    Warpcast
-                </a>
-                <a
-                    href={linkedinUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 bg-[#0077b5] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#006097] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px] flex items-center justify-center gap-2"
-                >
-                    <Linkedin className="w-4 h-4" /> LinkedIn
-                </a>
-            </div>
+                    <a
+                        href={twitterUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-black text-white border-2 border-black font-bold py-3 px-6 hover:bg-gray-800 transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
+                    >
+                        Share / X
+                    </a>
+                    <a
+                        href={farcasterUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-[#855DCD] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#704eb0] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px]"
+                    >
+                        Warpcast
+                    </a>
+                    <a
+                        href={linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 bg-[#0077b5] text-white border-2 border-black font-bold py-3 px-6 hover:bg-[#006097] transition-all uppercase text-sm brutal-shadow-sm text-center min-w-[150px] flex items-center justify-center gap-2"
+                    >
+                        <Linkedin className="w-4 h-4" /> LinkedIn
+                    </a>
+                </div>
+            ) : (
+                <div className="mt-8 text-center text-sm font-mono text-gray-500 uppercase">
+                    Only the proof owner can manage this certificate.
+                </div>
+            )}
 
             <div className="mt-4">
                 <a
