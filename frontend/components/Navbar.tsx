@@ -29,14 +29,12 @@ export default function Navbar() {
                     </Link>
 
                     <div className="flex items-center gap-4">
-                        {!!isIssuer && (
-                            <Link
-                                href="/mint"
-                                className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-black border-2 border-transparent hover:border-black transition-all uppercase"
-                            >
-                                [ + MINT_PROOF ]
-                            </Link>
-                        )}
+                        <Link
+                            href="/mint"
+                            className="hidden md:flex items-center gap-1.5 px-4 py-2 text-xs font-bold text-black border-2 border-transparent hover:border-black transition-all uppercase"
+                        >
+                            [ + MINT_PROOF ]
+                        </Link>
 
                         <ConnectWallet />
                     </div>

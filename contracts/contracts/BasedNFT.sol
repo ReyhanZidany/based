@@ -77,7 +77,7 @@ contract BasedNFT is ERC721, Ownable {
         string memory role,
         string memory metadataURI
     ) public returns (uint256) {
-        require(authorizedIssuers[msg.sender], "Not authorized to mint");
+        // require(authorizedIssuers[msg.sender], "Not authorized to mint");
         require(contributor != address(0), "Invalid contributor address");
         
         uint256 tokenId = _tokenIdCounter++;
@@ -109,7 +109,7 @@ contract BasedNFT is ERC721, Ownable {
         string memory role,
         string memory metadataURI
     ) external returns (uint256[] memory) {
-        require(authorizedIssuers[msg.sender], "Not authorized to mint");
+        // require(authorizedIssuers[msg.sender], "Not authorized to mint");
         
         uint256[] memory tokenIds = new uint256[](contributors.length);
         
