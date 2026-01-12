@@ -19,11 +19,13 @@
 /* Neo-Brutalist Utilities */
 @layer utilities {
   .brutal-shadow {
-    box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+    box-shadow: 4px 4px 0px 0px rgba(0, 0, 0, 1);
   }
+
   .brutal-shadow-sm {
-    box-shadow: 2px 2px 0px 0px rgba(0,0,0,1);
+    box-shadow: 2px 2px 0px 0px rgba(0, 0, 0, 1);
   }
+
   .brutal-border {
     border: 2px solid #000000;
   }
@@ -32,7 +34,8 @@
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Courier New', Courier, monospace; /* Technical feel */
+  font-family: 'Courier New', Courier, monospace;
+  /* Technical feel */
   background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
   background-size: 20px 20px;
 }

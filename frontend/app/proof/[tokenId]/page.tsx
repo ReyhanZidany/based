@@ -116,6 +116,13 @@ export default function ProofDetailPage({
                 <div className={`h-4 w-full border-b-2 border-black ${proof.isActive ? 'bg-blue-600' : 'bg-red-500'}`} />
 
                 <div className="p-8 md:p-12 relative z-10">
+                    {/* Branding Tag */}
+                    <div className="mb-6">
+                        <span className="bg-black text-white px-4 py-1 font-bold text-sm tracking-widest">
+                            BASED.ID
+                        </span>
+                    </div>
+
                     {/* Header */}
                     <div className="flex flex-col md:flex-row justify-between items-start gap-6 border-b-2 border-dashed border-gray-300 pb-8 mb-8">
                         <div>
@@ -135,45 +142,43 @@ export default function ProofDetailPage({
                     <div className="space-y-8">
                         <div>
                             <p className="text-xs font-mono text-gray-500 uppercase mb-2">-- HOLDER_ROLE</p>
-                            <p className="text-3xl font-black uppercase text-black bg-gray-100 inline-block px-2">
+                            <p className="text-5xl font-black uppercase text-blue-600">
                                 {proof.role}
                             </p>
                         </div>
 
                         <div>
                             <p className="text-xs font-mono text-gray-500 uppercase mb-2">-- PROJECT_SCOPE</p>
-                            <h2 className="text-4xl font-bold text-blue-600 leading-none">
+                            <h2 className="text-4xl font-bold text-black leading-none">
                                 {proof.projectName}
                             </h2>
                         </div>
                     </div>
 
                     {/* Footer Metadata */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12 pt-8 border-t-4 border-black">
-                        <div className="font-mono text-xs space-y-2">
-                            <div className="flex gap-2">
+                    <div className="flex flex-col md:flex-row justify-between items-end mt-12 pt-8 border-t-4 border-black">
+                        <div className="font-mono text-xs space-y-3 w-full">
+                            <div className="flex gap-4 items-center">
                                 <span className="font-bold w-20">ISSUER:</span>
-                                <span>{issuerEns || proof.issuer}</span>
+                                <span className="font-mono bg-gray-100 px-1">{issuerEns || proof.issuer}</span>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-4 items-center">
                                 <span className="font-bold w-20">DATE:</span>
                                 <span>{date}</span>
                             </div>
-                            <div className="flex gap-2">
+                            <div className="flex gap-4 items-center">
                                 <span className="font-bold w-20">NETWORK:</span>
-                                <span>BASE SEPOLIA</span>
+                                <span className="text-blue-600 font-bold">BASE SEPOLIA</span>
                             </div>
                         </div>
 
-                        <div className="flex items-end justify-end">
-                            <div className="bg-white p-2 border-2 border-black">
-                                <QRCode
-                                    value={`https://based-indonesia.vercel.app/proof/${tokenId}`}
-                                    size={80}
-                                    style={{ height: "auto", maxWidth: "100%", width: "100%" }}
-                                    viewBox={`0 0 256 256`}
-                                />
-                            </div>
+                        <div className="mt-6 md:mt-0 bg-white p-2 border-2 border-black shrink-0">
+                            <QRCode
+                                value={`https://based-indonesia.vercel.app/proof/${tokenId}`}
+                                size={80}
+                                style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                viewBox={`0 0 256 256`}
+                            />
                         </div>
                     </div>
                 </div>
