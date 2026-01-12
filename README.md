@@ -10,9 +10,9 @@
 
 ## � The Problem: Current Certs are L
 Let's be real. Traditional certifications are kinda broken:
-- 📄 **PDFs?** Easily photoshopped.
-- 💼 **LinkedIn Flexes?** Often cap (fake).
-- 👻 **Contributions?** Lost in the void.
+- **PDFs?** Easily photoshopped.
+- **LinkedIn Flexes?** Often cap (fake).
+- **Contributions?** Lost in the void.
 
 Builders do the work, but have no **permanent, owned proof** of their impact.
 
@@ -48,7 +48,20 @@ We built this using the freshest stack on the market:
 
 ---
 
-## 🏃‍♂️ Run it Locally
+## � Network Details
+If you need to add Base Sepolia manually to your wallet:
+
+| Setting | Value |
+| :--- | :--- |
+| **Network Name** | Base Sepolia |
+| **RPC Endpoint** | `https://sepolia.base.org` |
+| **Chain ID** | `84532` |
+| **Currency Symbol** | `ETH` |
+| **Block Explorer** | `https://sepolia.basescan.org` |
+
+---
+
+## �🏃‍♂️ Run it Locally
 
 Clone the repo and join the movement.
 
