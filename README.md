@@ -28,6 +28,30 @@ We issue **Soulbound Tokens (SBTs)** aka **Proofs of Contribution** on Base Sepo
 
 ---
 
+## 🎯 Who is BASED for?
+- **Hackathon Organizers**: Issue verifiable proof of attendance and winning in seconds, not weeks.
+- **Builders**: Build a permanent, onchain resume ensuring your hard work is never lost.
+- **Recruiters**: Hire based on verified contribution history, not just self-reported resumes.
+
+## 🔄 Reputation Lifecycle
+```mermaid
+graph LR
+    A[Issue] -->|Org mints SBT| B[Share]
+    B -->|Builder posts| C[Vouch]
+    C -->|Peers attest| D[Query]
+    D -->|Recruiters find| A
+```
+1. **Issue**: Organizations mint SBTs for contributors.
+2. **Share**: Builders share their measurable impact on social networks.
+3. **Vouch**: Peers attest to the quality of work (Roadmap).
+4. **Query**: Recruiters find talent based on verified skills.
+
+> [!IMPORTANT]
+> **What BASED does NOT measure:**
+> BASED verifies *that* you did something (attendance, submission, verified role), but it does not inevitably measure the *subjective quality* of code (yet). We provide the trust layer; humans provide the context.
+
+---
+
 ## 🚀 Features (Alpha)
 - **⚡ Mint Speed**: Instant issuance by authorized orgs.
 - **🆔 Basename Native**: We speak `.base.eth` fluently. No more boring `0x` addresses everywhere.
