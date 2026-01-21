@@ -53,6 +53,9 @@ export const metadata: Metadata = {
     creator: "@reyhanzidany", // Adjust if needed
     images: ["/based-id.png"],
   },
+  verification: {
+    google: "gJ8w0XMGGcbZFHNz6RYO-HL3RdQ156Q14S5VLgzaWUQ",
+  },
 };
 
 export const viewport: Viewport = {
