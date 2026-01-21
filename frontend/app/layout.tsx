@@ -10,13 +10,53 @@ import { Analytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
+
 export const metadata: Metadata = {
-  title: "based | Onchain Reputation",
-  description: "Proof of contribution built on Base",
+  metadataBase: new URL("https://based-indonesia.vercel.app"),
+  title: "BASED | The Onchain Resume for Based Builders",
+  description:
+    "Based is the reputation layer for the Base ecosystem. Mint verifiable Soulbound Tokens (SBTs) for your hackathon wins, contributions, and community impact.",
+  keywords: [
+    "Base",
+    "Base Indonesia",
+    "Onchain Reputation",
+    "Soulbound Tokens",
+    "SBT",
+    "Web3 Resume",
+    "Hackathon",
+    "Based ID",
+    "Reyhan Zidany",
+  ],
+  authors: [{ name: "Reyhan Zidany" }],
+  openGraph: {
+    title: "BASED | The Onchain Resume for Based Builders",
+    description:
+      "Mint verifiable credentials. Build your onchain reputation. Forever. The Etherscan for Human Impact on Base.",
+    url: "https://based-indonesia.vercel.app",
+    siteName: "BASED",
+    images: [
+      {
+        url: "/based-id.png", // Ensure this image exists in public folder
+        width: 1200,
+        height: 630,
+        alt: "BASED - Onchain Reputation",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BASED | The Onchain Resume for Based Builders",
+    description:
+      "Mint verifiable credentials. Build your onchain reputation. Forever.",
+    creator: "@reyhanzidany", // Adjust if needed
+    images: ["/based-id.png"],
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  themeColor: "#0052FF", // Changed to Base Blue
 };
 
 export default function RootLayout({
